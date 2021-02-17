@@ -20,6 +20,7 @@
 ##  build.sh MortgageApplication/cobol/epsnbrvl.cbl
 ##  build.sh --sourceDir /u/usr1/repo /u/usr/buildFiles.txt
 ##  build.sh --sourceDir /u/usr1/repo --hlq IBMUSER.DBB /u/usr/buildFiles.txt  
+##  build.sh --sourceDir /u/DevOps_Demo/dbb --hlq IBMUSER.DBB --workDir /u/DevOps_Demo/dbb/log /u/DevOps_Demo/dbb/Build/MortgageApplication/build/files.txt
 ###############################################################################################
 
 # Set the DBB HOME directory
