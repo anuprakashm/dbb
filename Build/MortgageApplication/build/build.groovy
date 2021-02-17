@@ -175,6 +175,11 @@ def (File jsonFile, File htmlFile) = tools.generateBuildReport()
 // finalize build result
 tools.finalizeBuildResult(jsonReport:jsonFile, htmlReport:htmlFile, filesProcessed:processCounter)
 
+// publish binaries to Nexus repo
+Class publishLoadModuleScript = new GroovyClassLoader(getClass().getClassLoader()).parseClass(new File("./PublishLoadModule.groovy"));
+GroovyObject publishLoadModule = (GroovyObject) publishLoadModuleScript.newInstance();
+publishLoadModule.run()
+
 // Print end build message
 def endTime = new Date()
 def duration = TimeCategory.minus(endTime, startTime)

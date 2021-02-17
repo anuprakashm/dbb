@@ -19,11 +19,11 @@
 ##  build.sh 
 ##  build.sh MortgageApplication/cobol/epsnbrvl.cbl
 ##  build.sh --sourceDir /u/usr1/repo /u/usr/buildFiles.txt
-##    
+##  build.sh --sourceDir /u/usr1/repo --hlq IBMUSER.DBB /u/usr/buildFiles.txt  
 ###############################################################################################
 
 # Set the DBB HOME directory
-DBB_HOME=/usr/lpp/IBM/dbb
+DBB_HOME=/usr/lpp/IBM/dbb110
 
 # $DBB_HOME/bin/groovyz automatically sets the env variables and classpath required for DBB
 CMD="$DBB_HOME/bin/groovyz build.groovy $@"

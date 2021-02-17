@@ -9,7 +9,7 @@
 ##
 ###############################################################################################
 
-DBB_HOME=
+DBB_HOME=/usr/lpp/IBM/dbb110
 
 CMD="$DBB_HOME/bin/groovyz DownloadLoadModule.groovy $@"
 
