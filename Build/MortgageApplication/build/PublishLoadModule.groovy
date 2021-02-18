@@ -71,8 +71,7 @@ loadDatasetToMembersMap.each { dataset, members ->
 
 //Package the load files just copied into a tar file using the build
 //label as the name for the tar file.
-def currDate = new Date().format( 'yyyyMMdd' )
-def buildGroup = "${properties.collection}-${currDate}" as String
+def buildGroup = "${properties.collection}" as String
 def buildLabel = "build.${properties.startTime}" as String
 def tarFile = new File("$tempLoadDir/${buildLabel}.tar")
 def process = "tar -cvf $tarFile .".execute(null, tempLoadDir)
