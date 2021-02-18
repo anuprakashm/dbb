@@ -27,11 +27,16 @@ import groovyx.net.http.*
 
 
 /**
- * Publish a file from HFS to an artifactory repository at location specified in remoteFilePath
+ * Publish a file from HFS to an artifactory / nexus repository at location specified in remoteFilePath
  */
-def publish(serverUrl, repo, apiKey, remoteFilePath, File localFile)
+def publish(repoType, serverUrl, repo, apiKey, remoteFilePath, File localFile)
 {
     //Validate to make sure all required fields are specified
+    def repoFlag = 'valid'
+    if ((repoType != 'nexus') && (repoType !== 'jfrog')) {
+        repoFlag = null
+    }
+    assert repoFlag != null, "Need to specify a valid repo type - nexus or jfrog"
     assert serverUrl != null, "Need to specify a valid URL to artifactory server"
     assert repo != null, "Need to specify a valid artifactory repository"
     assert apiKey != null, "Need to specify a valid API key to authenticate with $repo"
@@ -49,7 +54,13 @@ def publish(serverUrl, repo, apiKey, remoteFilePath, File localFile)
     
     def restClient = new RESTClient(url)
     restClient.encoder.'application/zip' = this.&encodeZipFile
-    def response = restClient.put(path: filePath, headers: ['X-JFrog-Art-Api' : apiKey, 'X-Checksum-Sha1' : sha1, 'X-Checksum-MD5' : md5], body: localFile, requestContentType: 'application/zip')
+    if (repoType == 'jfrog') {
+       def response = restClient.put(path: filePath, headers: ['X-JFrog-Art-Api' : apiKey, 'X-Checksum-Sha1' : sha1, 'X-Checksum-MD5' : md5], body: localFile, requestContentType: 'application/zip')
+    }
+    else {
+       def cred = "Basic $apiKey"
+       def response = restClient.put(path: filePath, headers: ['Authorization': cred], body: localFile, requestContentType: 'application/zip')
+    }    
     
     assert response.isSuccess(), "Failed to publish file $localFile"
     

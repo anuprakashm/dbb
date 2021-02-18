@@ -79,6 +79,7 @@ int rc = process.waitFor()
 assert rc == 0, "Failed to package load modules" 
 
 //Set up the artifactory information to publish the tar file
+def repoType = properties.get('artifactory.type')
 def url = properties.get('artifactory.url')
 def apiKey = properties.get('artifactory.apiKey')
 def repo = properties.get('artifactory.repo') as String
@@ -88,7 +89,7 @@ def remotePath = "${buildGroup}/${tarFile.name}"
 File artifactoryHelpersFile = new File('./ArtifactoryHelpers.groovy')
 Class artifactoryHelpersClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(artifactoryHelpersFile)
 GroovyObject artifactoryHelpers = (GroovyObject) artifactoryHelpersClass.newInstance()
-artifactoryHelpers.publish(url, repo, apiKey, remotePath, tarFile)
+artifactoryHelpers.publish(repoType, url, repo, apiKey, remotePath, tarFile)
 
 
 
