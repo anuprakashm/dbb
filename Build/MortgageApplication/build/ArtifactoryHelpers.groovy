@@ -33,7 +33,7 @@ def publish(repoType, serverUrl, repo, apiKey, remoteFilePath, File localFile)
 {
     //Validate to make sure all required fields are specified
     def repoFlag = 'valid'
-    if ((repoType != 'nexus') && (repoType !== 'jfrog')) {
+    if ((repoType != 'nexus') && (repoType != 'jfrog')) {
         repoFlag = null
     }
     assert repoFlag != null, "Need to specify a valid repo type - nexus or jfrog"
