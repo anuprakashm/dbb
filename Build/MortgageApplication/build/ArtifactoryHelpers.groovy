@@ -55,14 +55,16 @@ def publish(repoType, serverUrl, repo, apiKey, remoteFilePath, File localFile)
     def restClient = new RESTClient(url)
     restClient.encoder.'application/zip' = this.&encodeZipFile
     if (repoType == 'jfrog') {
+       println "Repo is jFrog Artifactory"
        def response = restClient.put(path: filePath, headers: ['X-JFrog-Art-Api' : apiKey, 'X-Checksum-Sha1' : sha1, 'X-Checksum-MD5' : md5], body: localFile, requestContentType: 'application/zip')
+       assert response.isSuccess(), "Failed to publish file $localFile"
     }
     else {
+       println "Repo is Nexus Repository"
        def cred = "Basic $apiKey"
        def response = restClient.put(path: filePath, headers: ['Authorization': cred], body: localFile, requestContentType: 'application/zip')
+       assert response.isSuccess(), "Failed to publish file $localFile"
     }    
-    
-    assert response.isSuccess(), "Failed to publish file $localFile"
     
     println "Successfully publish file $localFile to $filePath"
 }
